@@ -1,0 +1,263 @@
+USE [DepremzedeKonutTakipSistemi]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Adres](
+	[AdresID] [int] IDENTITY(1,1) NOT NULL,
+	[DepremzedeID] [int] NULL,
+	[EskiAdres] [varchar](255) NULL,
+	[YeniAdres] [varchar](255) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[AdresID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Depremzede](
+	[DepremzedeID] [int] IDENTITY(1,1) NOT NULL,
+	[Ad] [varchar](100) NULL,
+	[Soyad] [varchar](100) NULL,
+	[TC_KimlikNo] [varchar](11) NULL,
+	[DogumTarihi] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DepremzedeID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[TC_KimlikNo] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Iletisim](
+	[IletisimID] [int] IDENTITY(1,1) NOT NULL,
+	[DepremzedeID] [int] NULL,
+	[Telefon] [varchar](20) NULL,
+	[Email] [varchar](100) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[IletisimID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Konut](
+	[KonutID] [int] IDENTITY(1,1) NOT NULL,
+	[Adres] [varchar](255) NULL,
+	[Metrekare] [int] NULL,
+	[OdaSayisi] [int] NULL,
+	[KonutTuruID] [int] NULL,
+	[DurumID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KonutID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Konut_Durumu](
+	[DurumID] [int] IDENTITY(1,1) NOT NULL,
+	[Durum] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[DurumID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Konut_Sahipligi](
+	[KonutSahipligiID] [int] IDENTITY(1,1) NOT NULL,
+	[KonutID] [int] NULL,
+	[SahipID] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KonutSahipligiID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Konut_Turu](
+	[KonutTuruID] [int] IDENTITY(1,1) NOT NULL,
+	[Turu] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[KonutTuruID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tahsis](
+	[TahsisID] [int] IDENTITY(1,1) NOT NULL,
+	[DepremzedeID] [int] NULL,
+	[KonutID] [int] NULL,
+	[TahsisTarihi] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TahsisID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tahsis_Tarihi](
+	[TahsisTarihiID] [int] IDENTITY(1,1) NOT NULL,
+	[KonutID] [int] NULL,
+	[TahsisTarihi] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[TahsisTarihiID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Adres]  WITH CHECK ADD FOREIGN KEY([DepremzedeID])
+REFERENCES [dbo].[Depremzede] ([DepremzedeID])
+GO
+ALTER TABLE [dbo].[Iletisim]  WITH CHECK ADD FOREIGN KEY([DepremzedeID])
+REFERENCES [dbo].[Depremzede] ([DepremzedeID])
+GO
+ALTER TABLE [dbo].[Konut]  WITH CHECK ADD FOREIGN KEY([DurumID])
+REFERENCES [dbo].[Konut_Durumu] ([DurumID])
+GO
+ALTER TABLE [dbo].[Konut]  WITH CHECK ADD FOREIGN KEY([KonutTuruID])
+REFERENCES [dbo].[Konut_Turu] ([KonutTuruID])
+GO
+ALTER TABLE [dbo].[Konut_Sahipligi]  WITH CHECK ADD FOREIGN KEY([KonutID])
+REFERENCES [dbo].[Konut] ([KonutID])
+GO
+ALTER TABLE [dbo].[Tahsis]  WITH CHECK ADD FOREIGN KEY([DepremzedeID])
+REFERENCES [dbo].[Depremzede] ([DepremzedeID])
+GO
+ALTER TABLE [dbo].[Tahsis]  WITH CHECK ADD FOREIGN KEY([KonutID])
+REFERENCES [dbo].[Konut] ([KonutID])
+GO
+ALTER TABLE [dbo].[Tahsis_Tarihi]  WITH CHECK ADD FOREIGN KEY([KonutID])
+REFERENCES [dbo].[Konut] ([KonutID])
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[TahsisYap] 
+    @DepremzedeID INT
+AS
+BEGIN
+    DECLARE @KonutID INT;
+    
+    
+    SELECT TOP 1 @KonutID = KonutID
+    FROM Konut
+    WHERE DurumID = (SELECT DurumID FROM Konut_Durumu WHERE Durum = 'Boş')
+    ORDER BY NEWID();  
+
+    
+    IF @KonutID IS NOT NULL
+    BEGIN
+       
+        INSERT INTO Tahsis (DepremzedeID, KonutID, TahsisTarihi)
+        VALUES (@DepremzedeID, @KonutID, GETDATE());
+
+       
+        UPDATE Konut
+        SET DurumID = (SELECT DurumID FROM Konut_Durumu WHERE Durum = 'Tahsis Edildi')
+        WHERE KonutID = @KonutID;
+        
+        PRINT 'Konut başarıyla tahsis edildi.';
+    END
+    ELSE
+    BEGIN
+        PRINT 'Uygun konut bulunamadı.';
+    END
+END;
+
+
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[TahsisYapTransaction] 
+    @DepremzedeID INT
+AS
+BEGIN
+    
+    BEGIN TRANSACTION;
+
+    DECLARE @KonutID INT;
+
+    BEGIN TRY
+        
+        SELECT TOP 1 @KonutID = KonutID
+        FROM Konut
+        WHERE DurumID = (SELECT DurumID FROM Konut_Durumu WHERE Durum = 'Boş')
+        ORDER BY NEWID();  
+
+        
+        IF @KonutID IS NOT NULL
+        BEGIN
+            
+            INSERT INTO Tahsis (DepremzedeID, KonutID, TahsisTarihi)
+            VALUES (@DepremzedeID, @KonutID, GETDATE());
+
+            
+            UPDATE Konut
+            SET DurumID = (SELECT DurumID FROM Konut_Durumu WHERE Durum = 'Tahsis Edildi')
+            WHERE KonutID = @KonutID;
+
+            
+            COMMIT TRANSACTION;
+            PRINT 'Konut başarıyla tahsis edildi.';
+        END
+        ELSE
+        BEGIN
+            
+            PRINT 'Uygun konut bulunamadı.';
+            ROLLBACK TRANSACTION;
+        END
+    END TRY
+    BEGIN CATCH
+        
+        PRINT 'Bir hata oluştu. İşlemler geri alınıyor.';
+        ROLLBACK TRANSACTION;
+    END CATCH
+END;
+GO
