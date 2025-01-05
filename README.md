@@ -1,0 +1,5 @@
+# **Depremzede Konut Takip Sistemi**
+
+
+
+
